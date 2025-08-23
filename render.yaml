@@ -1,19 +1,19 @@
 databases:
   - name: mysitedb
     plan: free
-    databaseName: 任意の名前
-    user: 任意の名前
+    databaseName: bookdb
+    user: bookuser
 
 services:
   - type: web
     plan: free
-    name: 任意の名前
+    name: bookservice
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "python -m gunicorn bookproject.asgi:application -k uvicorn.workers.uvicornWorker"
+    startCommand: "python -m gunicorn bookproject.asgi:application -k uvicorn.workers.UvicornWorker"
     envVars:
       - key: DATABASE_URL
-        from Database:
+        fromDatabase:
           name: mysitedb
           property: connectionString
       - key: WEB_CONCURRENCY
