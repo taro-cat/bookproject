@@ -1,4 +1,4 @@
-database:
+databases:
   - name: mysitedb
     plan: free
     databaseName: 任意の名前
@@ -10,7 +10,7 @@ services:
     name: 任意の名前
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "python -m gunicorn bookproject.asgi:application -k uvicorn.workers.uvicornWorkers"
+    startCommand: "python -m gunicorn bookproject.asgi:application -k uvicorn.workers.uvicornWorker"
     envVars:
       - key: DATABASE_URL
         from Database:
