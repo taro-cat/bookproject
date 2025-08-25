@@ -4,3 +4,4 @@ Django==5.1.2
 pillow==11.3.0
 sqlparse==0.5.3
 whitenoise==6.9.0
+dj-database-url==1.0.0 
