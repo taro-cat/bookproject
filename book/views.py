@@ -23,6 +23,10 @@ class CreateBookView(LoginRequiredMixin, CreateView):
     fields=('title', 'text', 'category', 'thumbnail')
     success_url=reverse_lazy('list_book')
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user  # ログイン中ユーザーをセット
+        return super().form_valid(form)
+
 class DeleteBookView(LoginRequiredMixin, DeleteView):
     template_name='book/book_confirm_delete.html'
     model=Book
@@ -73,7 +77,7 @@ class CreateReviewView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-
+        form.instance.book = Book.objects.get(pk=self.kwargs['book_id'])
         return super().form_valid(form)
 
     def get_success_url(self):
