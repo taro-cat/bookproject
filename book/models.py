@@ -1,6 +1,7 @@
 from django.db import models
 
 from .consts import MAX_RATE
+from cloudinary.models import CloudinaryField 
 
 RATE_CHOICES = [(x, str(x)) for x in range(0, MAX_RATE + 1)]
 
@@ -8,7 +9,7 @@ CATEGORY=(('business', 'ビジネス'), ('life', '生活'), ('other', 'その他
 class Book(models.Model):
     title=models.CharField(max_length=100)
     text=models.TextField()
-    thumbnail=models.ImageField(null=True, blank=True)
+    thumbnail=CloudinaryField('image', null=True, blank=True)
     category=models.CharField(
         max_length=100,
         choices=CATEGORY
