@@ -7,6 +7,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .consts import ITEM_PER_PAGE
 from .models import Book, Review
+from django.conf import settings
 
 class ListBookView(LoginRequiredMixin, ListView):
     template_name='book/book_list.html'
@@ -82,4 +83,15 @@ class CreateReviewView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('detail_book', kwargs={'pk': self.object.book.id})
+
+def index_view(request):
+    # 既存の処理
+    object_list = Book.objects.order_by('-id')
+    ranking_list = Book.objects.annotate(avg_rating=Avg('review__rate')).order_by('-avg_rating')
+
+    return render(request, 'book/index.html', {
+        'object_list': object_list,
+        'ranking_list': ranking_list,
+        'debug': settings.DEBUG
+    })
 # Create your views here.
