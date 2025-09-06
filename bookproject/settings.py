@@ -4,11 +4,13 @@ from pathlib import Path
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-from decouple import config
+from decouple import Config, RepositoryEnv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+env_path = os.path.join(BASE_DIR, ".env")
 
+config = Config(RepositoryEnv(env_path))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -17,7 +19,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", default=False, cast=bool)
+#DEBUG = config("DEBUG", default=False, cast=bool)
+DEBUG = True
 
 SECRET_KEY = config("SECRET_KEY")
 
@@ -139,7 +142,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 cloudinary.config( 
         cloud_name = config('CLOUDINARY_CLOUD_NAME'), 
         api_key = config('CLOUDINARY_API_KEY'), 
-        api_secret = config('CLOUDINARY_API_SECRET') 
+        api_secret = config('CLOUDINARY_API_SECRET') ,
     )
 
 # Default primary key field type

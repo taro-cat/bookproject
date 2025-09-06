@@ -26,10 +26,8 @@ class CreateBookView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user  # ログイン中ユーザーをセット
-        response = super().form_valid(form)
-        # デバッグ用：Cloudinary に送信された URL を表示
-        print(self.object.thumbnail.url)
         return super().form_valid(form)
+        
 
 class DeleteBookView(LoginRequiredMixin, DeleteView):
     template_name='book/book_confirm_delete.html'
