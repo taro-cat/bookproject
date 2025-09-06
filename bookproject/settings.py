@@ -85,8 +85,9 @@ if not DEBUG:
     DATABASES = {
         'default': dj_database_url.config(
             # Replace this value with your local database's connection string.
-            default='postgresql://postgres:postgres@localhost:5432/bookproject',
+            default=config("DATABASE_URL"),
             conn_max_age=600
+            ssl_require=not DEBUG,
         )
     }
 # Password validation
