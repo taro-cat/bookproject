@@ -5,7 +5,7 @@ from cloudinary.models import CloudinaryField
 
 RATE_CHOICES = [(x, str(x)) for x in range(0, MAX_RATE + 1)]
 
-CATEGORY=(('business', 'ビジネス'), ('life', '生活'), ('other', 'その他'))
+CATEGORY=(('business', 'ビジネス'), ('life', '生活'), ('sensitve', 'エロ'), ('other', 'その他'))
 class Book(models.Model):
     title=models.CharField(max_length=100)
     text=models.TextField()
