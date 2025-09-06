@@ -59,13 +59,18 @@ class UpdateBookView(LoginRequiredMixin, UpdateView):
         return reverse('detail_book', kwargs={'pk': self.object.id})
 
 def index_view(request):
-    object_list=Book.objects.order_by('-id')
+    object_list=Book.objects.order_by('-id')  #新着順
     ranking_list=Book.objects.annotate(avg_rating=Avg('review__rate')).order_by('-avg_rating')
 
     paginator=Paginator(ranking_list, ITEM_PER_PAGE)
     page_number=request.GET.get('page',1)
     page_obj=paginator.page(page_number)
-    return render(request, 'book/index.html', {'object_list': object_list, 'ranking_list': ranking_list, 'page_obj':page_obj})
+
+    return render(
+        request,
+        'book/index.html',
+        {'object_list': object_list, 'ranking_list': ranking_list, 'page_obj':page_obj}
+    )
 
 class CreateReviewView(LoginRequiredMixin, CreateView):
     model = Review
@@ -85,14 +90,4 @@ class CreateReviewView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('detail_book', kwargs={'pk': self.object.book.id})
 
-def index_view(request):
-    # 既存の処理
-    object_list = Book.objects.order_by('-id')
-    ranking_list = Book.objects.annotate(avg_rating=Avg('review__rate')).order_by('-avg_rating')
-
-    return render(request, 'book/index.html', {
-        'object_list': object_list,
-        'ranking_list': ranking_list,
-        'debug': settings.DEBUG
-    })
 # Create your views here.
