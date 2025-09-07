@@ -21,7 +21,7 @@ class DetailBookView(LoginRequiredMixin, DetailView):
 class CreateBookView(LoginRequiredMixin, CreateView):
     template_name='book/book_create.html'
     model=Book
-    fields=('title', 'text', 'category', 'thumbnail')
+    fields=('title', 'author', 'text', 'category', 'thumbnail')
     success_url=reverse_lazy('list_book')
 
     def form_valid(self, form):
@@ -45,7 +45,7 @@ class DeleteBookView(LoginRequiredMixin, DeleteView):
 class UpdateBookView(LoginRequiredMixin, UpdateView):
     template_name='book/book_update.html'
     model=Book
-    fields=('title', 'text', 'category', 'thumbnail')
+    fields=('title', 'author', 'text', 'category', 'thumbnail')
 
     def get_object(self, queryset=None):
         obj=super().get_object(queryset)

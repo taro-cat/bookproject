@@ -5,9 +5,10 @@ from cloudinary.models import CloudinaryField
 
 RATE_CHOICES = [(x, str(x)) for x in range(0, MAX_RATE + 1)]
 
-CATEGORY=(('business', 'ビジネス'), ('life', '生活'), ('sensitve', 'エロ'), ('other', 'その他'))
+CATEGORY=(('ビジネス', 'ビジネス'), ('生活', '生活'), ('エロ', 'エロ'), ('その他', 'その他'))
 class Book(models.Model):
     title=models.CharField(max_length=100)
+    author=models.CharField(max_length=100, null=True, blank=True)
     text=models.TextField()
     thumbnail=CloudinaryField('image', null=True, blank=True)
     category=models.CharField(

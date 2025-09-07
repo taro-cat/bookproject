@@ -8,21 +8,36 @@
 {% block content %}
 <div class="row">
     <div class="col-9">
-    {% for item in object_list %}
-    <div class="p-4 m-4 bg-light border border-success rounded">
-        <h2 class="text-success">{{ item.title }}</h2>
-        {% if item.thumbnail %}
-            <img src="{{ item.thumbnail.url }}" class="img-thumbnail" style="width: 200px; height: auto;" />
-        {% else %}
-            <p>画像はありません</p>
-        {% endif %}        
-        <h6>カテゴリ : {{ item.category }}</h6>
-        <div class="mt-3">
-            <a href="{% url 'detail_book' item.pk %}">詳細へ</a>
+        <div class="row">
+            {% for item in object_list %}
+            <div class="col-12 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="row g-0">
+                        <!-- 左：テキスト -->
+                        <div class="col-7 p-2 d-flex flex-column">
+                            <h2 class="text-success">{{ item.title }}</h2>
+                            <h6>作者：{{ item.author }}</h6>       
+                            <h6>カテゴリ : {{ item.category }}</h6>
+                            <div class="mt-3">
+                                <a href="{% url 'detail_book' item.pk %}">詳細へ</a>
+                            </div>
+                        </div>
+                        <!-- 右：画像 -->
+                         <div class="col-md-4 d-flex align-items-center justify-content-end">
+                            {% if item.thumbnail %}
+                                <img src="{{ item.thumbnail.url }}" class="img-thumbnail" style="width: 200px; height: auto;" />
+                            {% else %}
+                                <p>No Image</p>
+                            {% endif %} 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
-    {% endfor %}
-    </div>
+
+    <!-- サイドバー：評価順 -->
     <div class="col-3">
         <h2>評価順TOP2</h2>
         {% for ranking_book in page_obj %}
