@@ -8,6 +8,7 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from .consts import ITEM_PER_PAGE
 from .models import Book, Review
 from django.conf import settings
+from .forms import BookForm
 
 class ListBookView(LoginRequiredMixin, ListView):
     template_name='book/book_list.html'
@@ -47,8 +48,8 @@ class DetailBookView(LoginRequiredMixin, DetailView):
 class CreateBookView(LoginRequiredMixin, CreateView):
     template_name='book/book_create.html'
     model=Book
-    fields=('title', 'author', 'text', 'category', 'thumbnail')
     success_url=reverse_lazy('list_book')
+    form_class = BookForm
 
     def form_valid(self, form):
         form.instance.user = self.request.user  # ログイン中ユーザーをセット
@@ -71,7 +72,7 @@ class DeleteBookView(LoginRequiredMixin, DeleteView):
 class UpdateBookView(LoginRequiredMixin, UpdateView):
     template_name='book/book_update.html'
     model=Book
-    fields=('title', 'author', 'text', 'category', 'thumbnail')
+    form_class = BookForm
 
     def get_object(self, queryset=None):
         obj=super().get_object(queryset)

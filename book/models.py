@@ -6,6 +6,13 @@ from cloudinary.models import CloudinaryField
 RATE_CHOICES = [(x, str(x)) for x in range(0, MAX_RATE + 1)]
 
 CATEGORY=(('ビジネス', 'ビジネス'), ('生活', '生活'), ('R-18', 'R-18'), ('その他', 'その他'))
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class Book(models.Model):
     title=models.CharField(max_length=100)
     author=models.CharField(max_length=100, null=True, blank=True)
@@ -16,6 +23,8 @@ class Book(models.Model):
         choices=CATEGORY
     )
     user=models.ForeignKey('auth.User', on_delete=models.CASCADE)
+
+    tags = models.ManyToManyField('Tag', blank=True, related_name="books")
     
     def __str__(self):
         return self.title
