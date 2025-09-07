@@ -4,6 +4,36 @@
 {% block h1 %}書籍一覧{% endblock %}
 
 {% block content %}
+<div class="container mb-3">
+    <div class="d-flex justify-content-between align-items-center p-2 bg-light border rounded">
+        <!-- 左：現在の状態表示 -->
+        <div>
+            並び順: 
+            <strong>
+                {% if sort == 'rating' %}
+                    評価順
+                {% else %}
+                    新着順
+                {% endif %}
+            </strong> |
+            カテゴリ: 
+            <strong>
+                {% if category == 'ビジネス' %}ビジネス
+                {% elif category == '生活' %}生活
+                {% elif category == 'R-18' %}R-18
+                {% elif category == 'その他' %}その他
+                {% else %}すべて
+                {% endif %}
+            </strong>
+        </div>
+
+        <!-- 右：並び替えリンク -->
+        <div>
+            <a href="?sort=new{% if category %}&category={{ category }}{% endif %}" class="btn btn-sm btn-outline-primary">新着順</a>
+            <a href="?sort=rating{% if category %}&category={{ category }}{% endif %}" class="btn btn-sm btn-outline-primary">評価順</a>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-9">
         <div class="row">
@@ -34,6 +64,17 @@
             {% endfor %}
         </div>
     </div>
+  <!-- カテゴリ絞り込み -->
+  <div class="col-3">
+      <h5>カテゴリで絞り込み</h5>
+      <ul class="list-unstyled">
+          <li><a href="?{% if sort %}sort={{ sort }}&{% endif %}">すべて</a></li>
+          <li><a href="?{% if sort %}sort={{ sort }}&{% endif %}category=ビジネス">ビジネス</a></li>
+          <li><a href="?{% if sort %}sort={{ sort }}&{% endif %}category=生活">生活</a></li>
+          <li><a href="?{% if sort %}sort={{ sort }}&{% endif %}category=R-18">R-18</a></li>
+          <li><a href="?{% if sort %}sort={{ sort }}&{% endif %}category=その他">その他</a></li>
+      </ul>
+  </div>
 </div>
 
   {% include 'book/components/pagination.html' %}

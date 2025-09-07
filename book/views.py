@@ -14,6 +14,32 @@ class ListBookView(LoginRequiredMixin, ListView):
     model=Book
     paginate_by=ITEM_PER_PAGE
 
+    def get_queryset(self):
+        qs = Book.objects.all()
+
+        #カテゴリーで絞り込み
+        category = self.request.GET.get('category')
+        self.category = self.request.GET.get('category')
+        self.sort = self.request.GET.get('sort')
+
+        if category:
+            qs = qs.filter(category=category)
+
+        #ソート順
+        sort = self.request.GET.get('sort')
+        if sort == 'rating':
+            qs = qs.annotate(avg_rating=Avg('review__rate')).order_by('-avg_rating')
+        else:  #デフォルトは新着順
+            qs = qs.order_by('-id')
+        
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = self.category
+        context['sort'] = self.sort
+        return context        
+    
 class DetailBookView(LoginRequiredMixin, DetailView):
     template_name='book/book_detail.html'
     model=Book
